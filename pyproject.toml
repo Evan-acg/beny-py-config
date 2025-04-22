@@ -3,27 +3,25 @@ requires = ["uv>=0.1.0", "setuptools>=68.0.0"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "byconfig"
+name = "by_config"
 version = "0.1.0"
-description = "YAML/JSON配置加载器，支持环境变量解析"
+description = "YAML/JSON配置加载器"
 readme = "README.md"
 requires-python = ">=3.11"
 license = {text = "MIT"}
 authors = [
-    {name = "Your Name", email = "your.email@example.com"},
+    {name = "Evanston", email = "kaluoshilong@qq.com"},
 ]
 dependencies = [
     "pyyaml>=6.0.2",
+    "watchdog>=6.0.0",
 ]
 
-[project.scripts]
-byconfig = "ByConfig.cli:main"
-
 [project.urls]
-Homepage = "https://github.com/yourusername/byconfig"
+Homepage = "https://github.com/Evan-acg/beny-py-config"
 
 [tool.setuptools]
-packages = ["ByConfig"]
+packages = ["by_config"]
 package-dir = {"" = "src"}
 
 [dependency-groups]
@@ -32,4 +30,15 @@ dev = [
     "pytest-mock>=3.14.0",
     "mypy>=1.8.0",
     "types-PyYAML>=6.0.12",
+    "build>=1.2.2.post1",
+]
+
+[tool.pytest.ini_options]
+addopts = "-vvs --lf"
+testpaths= [
+"tests"
+]
+markers = [
+    "fix: mark a test to run only if it is fixed",
+    "only: mark a test to run only",
 ]
