@@ -1,15 +1,19 @@
 import os
 import typing as t
+import threading
 
 from by_config.loader import YamlLoader
 
 
 class Config:
-    _instance: t.Self = None
+    _instance: "Config" = None
+    _lock: threading.Lock = threading.Lock()
 
     def __new__(cls):
         if cls._instance is None:
-            cls._instance = super().__new__(cls)
+            with cls._lock:
+                if cls._instance is None:
+                    cls._instance = super().__new__(cls)
         return cls._instance
 
     def __init__(self) -> None:
@@ -31,7 +35,7 @@ class Config:
     def is_use(self, item: dict) -> bool:
         return item.pop("use", False)
 
-    def load(self, *paths: str) -> None:
+    def load(self, *paths: str, verbose: bool = False) -> None:
         paths = [path for path in paths if os.path.isfile(path)] + [
             os.path.join(root, file)
             for path in paths
@@ -40,7 +44,7 @@ class Config:
             for file in files
         ]
 
-        raw_items = [loader.load(path) for path in paths for loader in self.loaders]
+        raw_items = [loader.load(path, verbose) for path in paths for loader in self.loaders]
 
         for f in self.filters:
             raw_items = [item for item in raw_items if f(item)]

@@ -1,5 +1,9 @@
+import logging
 import os
 import yaml
+
+
+logger = logging.getLogger("ConfigLoader")
 
 
 class YamlLoader:
@@ -12,9 +16,14 @@ class YamlLoader:
             )
         )
 
-    def load(self, path: str) -> dict:
+    def load(self, path: str, verbose: bool = False) -> dict:
+        path = os.path.abspath(path)
         if not self.is_valid(path):
             return {}
+
+        if verbose:
+            logger.info(f"Loading YAML file: {path}")
+
         with open(path, "r") as file:
             return yaml.safe_load(file)
 
