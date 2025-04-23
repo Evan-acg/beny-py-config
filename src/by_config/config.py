@@ -6,6 +6,7 @@ from by_config.loader import YamlLoader
 
 
 class Config:
+    _initialized: bool = False
     _instance: "Config" = None
     _lock: threading.Lock = threading.Lock()
 
@@ -17,9 +18,12 @@ class Config:
         return cls._instance
 
     def __init__(self) -> None:
+        if self._initialized:
+            return
         self.loaders = [YamlLoader()]
         self.payload: dict = {}
         self.filters = [self.is_use]
+        self._initialized = True
 
     def _merge_deep(self, a: dict, b: dict) -> None:
         for key, value in b.items():
@@ -44,7 +48,9 @@ class Config:
             for file in files
         ]
 
-        raw_items = [loader.load(path, verbose) for path in paths for loader in self.loaders]
+        raw_items = [
+            loader.load(path, verbose) for path in paths for loader in self.loaders
+        ]
 
         for f in self.filters:
             raw_items = [item for item in raw_items if f(item)]
