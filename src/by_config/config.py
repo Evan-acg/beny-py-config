@@ -42,3 +42,12 @@ class Config:
 
         for item in raw_items:
             self._merge_deep(self.payload, item)
+
+    def get(self, path: str | list[str], default=None) -> t.Any:
+        keys = path.split(".") if isinstance(path, str) else path
+        ret: t.Any = self.payload
+        for key in keys:
+            if key not in ret:
+                return default
+            ret = ret[key]
+        return ret if ret else default

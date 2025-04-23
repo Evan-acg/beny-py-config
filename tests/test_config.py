@@ -83,3 +83,19 @@ class TestConfig:
         )
         config.load(*paths)
         assert config.payload == expected
+
+    def test_get_with_str_path(self, config: Config) -> None:
+        config.payload = {"key": "value"}
+        assert config.get("key") == "value"
+
+    def test_get_with_str_path_not_found(self, config: Config) -> None:
+        config.payload = {"key": "value"}
+        assert config.get("non_existent_key") is None
+
+    def test_get_with_deep_path(self, config: Config) -> None:
+        config.payload = {"key": {"sub_key": "value"}}
+        assert config.get("key.sub_key") == "value"
+
+    def test_get_with_list_path(self, config: Config) -> None:
+        config.payload = {"key": {"sub_key": "value"}}
+        assert config.get(["key", "sub_key"]) == "value"

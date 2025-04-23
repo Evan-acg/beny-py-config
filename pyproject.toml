@@ -3,8 +3,8 @@ requires = ["uv>=0.1.0", "setuptools>=68.0.0"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "by_config"
-version = "0.1.0"
+name = "by_tech_config"
+version = "0.1.1"
 description = "YAML/JSON配置加载器"
 readme = "README.md"
 requires-python = ">=3.11"

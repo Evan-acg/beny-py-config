@@ -17,7 +17,7 @@ wheels = [
 ]
 
 [[package]]
-name = "by-config"
+name = "by-tech-config"
 version = "0.1.0"
 source = { editable = "." }
 dependencies = [
