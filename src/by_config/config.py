@@ -5,6 +5,13 @@ from by_config.loader import YamlLoader
 
 
 class Config:
+    _instance: t.Self = None
+
+    def __new__(cls):
+        if cls._instance is None:
+            cls._instance = super().__new__(cls)
+        return cls._instance
+
     def __init__(self) -> None:
         self.loaders = [YamlLoader()]
         self.payload: dict = {}

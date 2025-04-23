@@ -5,6 +5,11 @@ from by_config.config import Config
 
 
 class TestConfig:
+    def test_is_singleton(self) -> None:
+        config1: Config = Config()
+        config2: Config = Config()
+        assert config1 is config2
+
     @pytest.fixture
     def config(self) -> Config:
         config: Config = Config()
